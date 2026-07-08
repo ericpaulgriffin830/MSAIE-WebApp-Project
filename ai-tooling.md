@@ -5,11 +5,13 @@
 
 ## Tools used
 
-| Tool | Where used | Notes |
-|------|------------|-------|
-| Claude Code (Opus) | Project setup, scaffolding, requirements traceability from the SRS | _fill in as we go_ |
-| _e.g. Cursor_ | | |
-| _e.g. ChatGPT / Codex_ | | |
+The **User** column attributes each tool's use to a team member so graders can see who did what.
+
+| Tool | User | Where used | Notes |
+|------|------|------------|-------|
+| Claude Code (Opus) | Chris (C) | Project setup, scaffolding, requirements traceability from the SRS, git/repo wiring | Generated the repo structure, PLAN.md, README, merged .gitignore |
+| _e.g. Cursor_ | _Rob (B)_ | | |
+| _e.g. ChatGPT / Codex_ | _Eric (A)_ | | |
 
 ## How we used AI (broad terms)
 

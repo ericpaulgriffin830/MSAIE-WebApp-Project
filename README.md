@@ -102,6 +102,7 @@ createdb cafe_fausse                # create the app database
 
 > **Shared source of truth:** Rob's repo. Each member mirrors the final code to their own repo
 > for grading, and each adds **`quantic-grader`** as a collaborator (Settings → Collaborators).
+> See [`docs/GIT-WORKFLOW.md`](docs/GIT-WORKFLOW.md) for the exact one-time setup + daily commands.
 
 Each member must add **`quantic-grader`** as a collaborator on their repo
 (Settings → Collaborators → Add people) before submission.
