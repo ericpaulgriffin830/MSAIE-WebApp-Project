@@ -1,17 +1,21 @@
-import './App.css'
-import ReservationForm from './components/ReservationForm'
-import NewsletterSignup from './components/NewsletterSignup'
-import Gallery from './components/Gallery'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Navigation from './components/Navigation'
+import Home from './pages/Home'
+import Menu from './pages/Menu'
+import AboutUs from './pages/AboutUs'
+import Reservations from './pages/Reservations'
 
 function App() {
   return (
-    <div className="app">
-      <h1>Café Fausse</h1>
-      <p>Fine dining in the heart of Washington, DC</p>
-      <ReservationForm />
-      <NewsletterSignup />
-      <Gallery />
-    </div>
+    <BrowserRouter>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/reservations" element={<Reservations />} />
+        <Route path="/about" element={<AboutUs />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

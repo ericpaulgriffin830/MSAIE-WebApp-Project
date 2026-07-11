@@ -1,0 +1,80 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  color: #666;
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.contact-info,
+.hours-info {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #333;
+}
+
+.contact-info h2,
+.hours-info h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.contact-info p,
+.hours-info p {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+.welcome-section {
+  padding: 2rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.welcome-section h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.welcome-section p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-section {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+}
