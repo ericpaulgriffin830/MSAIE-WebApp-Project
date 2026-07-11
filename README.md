@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Café Fausse - React Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+I built the frontend pages for the Café Fausse restaurant website using React, JSX, and React Router. This includes the Home page, Menu page, About Us page, and navigation routing between them.
 
-## Available Scripts
+## Pages Implemented
+- **Home Page** (`src/pages/Home.jsx`)
+  - Restaurant name: Café Fausse
+  - Contact information: Address and phone number
+  - Hours of operation (Monday-Saturday 5 PM-11 PM, Sunday 5 PM-9 PM)
+  - Welcome message with brief restaurant overview
 
-In the project directory, you can run:
+- **Menu Page** (`src/pages/Menu.jsx`)
+  - Complete menu organized by categories:
+    - Starters: Bruschetta, Caesar Salad
+    - Main Courses: Grilled Salmon, Ribeye Steak, Vegetable Risotto
+    - Desserts: Tiramisu, Cheesecake
+    - Beverages: Red Wine, White Wine, Craft Beer, Espresso
+  - Each item includes name, description, and price
 
-### `npm start`
+- **About Us Page** (`src/pages/AboutUs.jsx`)
+  - Restaurant history and mission statement
+  - Founder biographies (Chef Antonio Rossi & Maria Lopez)
+  - Commitment values: Excellent Food, Unforgettable Experience, Local Sourcing
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+src/
+├── components/
+│   ├── Navigation.jsx      (Navigation bar with routing links)
+│   └── Navigation.css
+├── pages/
+│   ├── Home.jsx            (Home page component)
+│   ├── Home.css
+│   ├── Menu.jsx            (Menu page component)
+│   ├── Menu.css
+│   ├── AboutUs.jsx         (About Us page component)
+│   └── AboutUs.css
+├── App.jsx                 (Main app with routing setup)
+├── App.css
+└── index.js
 
-### `npm test`
+## Technologies Used
+- React 18
+- React Router DOM (for page navigation)
+- CSS3 (Flexbox and Grid for responsive design)
+- JSX
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to Run Locally
+```bash
+npm install
+npm start
+```
+The app will open at http://localhost:3000
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Features
+- Fully functional navigation between pages
+- Responsive design that works on desktop and mobile
+- Clean component-based architecture
+- All content from SRS requirements implemented
