@@ -98,7 +98,7 @@ createdb cafe_fausse                # create the app database
 |--------|-------------|-------|
 | Chris McCoy | https://github.com/cmccoy2008/MSAIE-WebApp-Project | Part C — reservation/gallery/newsletter forms, CSS theme/design system, QA |
 | Rob Ottogalli | https://github.com/Rob-Ottogalli/MSAIE-WebApp-Project | Part B — Flask backend, PostgreSQL, reservation + newsletter logic |
-| Eric Griffin | _repo TBD_ (`ericpaulgriffin830`) | Part A — Home/Menu/About Us pages + routing |
+| Eric Griffin | [ https://github.com/ericpaulgriffin830/MSAIE-WebApp-Project | Part A — Home/Menu/About Us pages + routing |
 
 > **Shared source of truth:** Rob's repo. Each member mirrors the final code to their own repo
 > for grading, and each adds **`quantic-grader`** as a collaborator (Settings → Collaborators).
