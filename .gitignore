@@ -217,5 +217,21 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Project-specific
+# ---- Added for the React/Vite frontend ----
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-error.log*
+
+# Env example is tracked; real env files are not (covered above, restated for clarity)
+!.env.example
+
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
+
+# iCloud placeholder files
+*.icloud
