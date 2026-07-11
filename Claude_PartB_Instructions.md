@@ -1,4 +1,9 @@
 
+# Context
+
+* Rob is in the MSAIE program from Quantic.  He is working on a group project for his Web Application Course.
+* The assignment is to build a website for a restaurant.
+
 # General Instructions for Project
 
 First, consider the fundamental functions the customer wants to see on the site:
@@ -11,6 +16,17 @@ First, consider the fundamental functions the customer wants to see on the site:
 - Something showcasing their awards and positive reviews
 - An ability to make a table reservation via the Web site
 
+# Specifics of Website
+
+In total, the website should have a minimum of five pages:
+
+* Main (index) page
+* Menu
+
+* Reservations
+* About us
+
+* Gallery
 
 # Software Requirements Specifications (SRS)
 
@@ -29,6 +45,11 @@ First, consider the fundamental functions the customer wants to see on the site:
 
 * When writing original code, please only work on the part assigned to Rob.  This will help with merge conflicts.
 
+
+# Current Status
+
+* Chris has done some work on part C.  His code is in the frontend folder.  You should refer to this when writing Rob's portion.
+
 ## Newsletter sign-up:
 
 * Customer should be able to sign up to receive a newsletter.
@@ -42,18 +63,18 @@ First, consider the fundamental functions the customer wants to see on the site:
   * The back-end logic should take the customer’s information, add it to the customer table, then assign a random available table for the chosen time slot (assume there are 30 tables total). Once completed, it should confirm to the user a successful reservation. If all seats are taken for that time slot, the system should send back a message that the customer needs to pick another time.
 * Database schema:
 
-  * Customers (Table)
+  * Customers (Table) - Required for Assignment
     * Customer ID (int, primary key)
     * Customer Name (varchar 80)
     * Customer Email (varchar )
     * Phone Number (varchar )
     * Newsletter Signup (bool)
-  * Reservations (Table)
+  * Reservations (Table) - Required for Assignment
     * Reservation ID (int, primary key)
     * Customer ID (int, forign key)
     * Time Slot (datetime)
     * Table Number (int, foreign key)
-  * Availability (Table):
+  * Availability (Table) - Suggested by Rob
     * Table ID (int, primary key)
     * Reservation ID (int, foreign key)
     * Timeslot
@@ -73,6 +94,8 @@ First, consider the fundamental functions the customer wants to see on the site:
   * Python (Flask)
   * PostgreSQL (database)
 
-# Reiteration
+# Prompt Instructions
 
-* **Again, please only work on the portion assigned to Rob.**
+* Using the above informatoin, please draft the Flask backend for the website.
+* Please also draft the code to read/write the PostgreSQL database.
+* **Again, please only work on the portion assigned to Rob.** If some code from other portions of work is incomplete, please make a list of what you ahve done and what work is still pending.
