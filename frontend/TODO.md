@@ -16,10 +16,12 @@ unless marked otherwise.
       touching this:
   - [ ] Add a `/gallery` route in `frontend/src/App.jsx` and a nav link in
         `frontend/src/components/Navigation.jsx`.
-  - [ ] **Add FR-14 content, which doesn't exist anywhere yet**: Awards (Culinary Excellence
-        Award – 2022, Restaurant of the Year – 2023, Best Fine Dining Experience – Foodie
-        Magazine 2023) and Customer Reviews (2 quotes — see SRS section 3.1.5). Only the 4 images
-        + lightbox exist today in `frontend/src/components/Gallery.jsx`.
+  - [ ] **Move the FR-14 content (Awards & Reviews) from About Us to Gallery.** Update: Eric
+        already built this (Awards + Customer Reviews sections, matching SRS section 3.1.5) —
+        but he added it to `frontend/src/pages/AboutUs.jsx`/`.css` instead of Gallery. Per the
+        SRS, FR-14 belongs on the Gallery page, not About Us. Move the `awards-section` and
+        `reviews-section` blocks (JSX + their CSS rules) from `AboutUs.jsx`/`.css` into the new
+        Gallery page component, then remove them from About Us so the content isn't duplicated.
 
 - [ ] **Add a Name field to `NewsletterSignup.jsx`.** The backend requires `{ name, email }`, not
       email-only — `customers.customer_name` is `NOT NULL` in the DB. See
