@@ -42,25 +42,35 @@ function ReservationForm() {
     <form className="reservation-form" onSubmit={handleSubmit}>
       <h2>Reserve a Table</h2>
 
-      <label htmlFor="timeSlot">Date &amp; Time</label>
-      <input type="datetime-local" id="timeSlot" name="timeSlot"
-        value={form.timeSlot} onChange={handleChange} />
+      <div className="field">
+        <label htmlFor="timeSlot">Date &amp; Time</label>
+        <input type="datetime-local" id="timeSlot" name="timeSlot"
+          value={form.timeSlot} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="guests">Number of Guests</label>
-      <input type="number" id="guests" name="guests" min="1"
-        value={form.guests} onChange={handleChange} />
+      <div className="field">
+        <label htmlFor="guests">Number of Guests</label>
+        <input type="number" id="guests" name="guests" min="1"
+          value={form.guests} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="name">Name</label>
-      <input type="text" id="name" name="name"
-        value={form.name} onChange={handleChange} />
+      <div className="field">
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" name="name"
+          value={form.name} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="email">Email</label>
-      <input type="email" id="email" name="email"
-        value={form.email} onChange={handleChange} />
+      <div className="field">
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" name="email"
+          value={form.email} onChange={handleChange} />
+      </div>
 
-      <label htmlFor="phone">Phone (optional)</label>
-      <input type="tel" id="phone" name="phone"
-        value={form.phone} onChange={handleChange} />
+      <div className="field">
+        <label htmlFor="phone">Phone (optional)</label>
+        <input type="tel" id="phone" name="phone"
+          value={form.phone} onChange={handleChange} />
+      </div>
 
       {error && <p className="error">{error}</p>}
       <button type="submit">Reserve</button>
