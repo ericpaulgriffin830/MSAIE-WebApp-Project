@@ -13,16 +13,14 @@ Compared this proposal against the backend Rob had already built and tested. Agr
   `{ email }` as originally proposed here, because `customers.customer_name` is `NOT NULL` in the
   DB schema. **`NewsletterSignup.jsx` needs a Name field added** before it's wired to the API —
   see the actual request shape in section 2 below.
-- 🟡 **Open — response shape / `success` boolean**: current backend responses use `{ message, ... }`
-  on success and `{ error: "..." }` on failure — there is **no `success` boolean** yet. Rob and
-  Claude are still discussing whether to add one; don't build front-end logic that depends on a
-  `success` key until this is confirmed. Check back here before wiring `handleSubmit`.
+- ✅ **`success` boolean added**: every response now includes `"success": true` or `"success": false`,
+  alongside `message` (success) or `error` (failure). Matches this doc's original proposal.
 
 ## Conventions
 - All requests and responses are **JSON**.
 - Flask reads the body with `request.get_json()` and replies with `jsonify(...)`.
-- Success responses include a human-readable **`message`**; error responses include an **`error`**
-  string. (No `success` boolean yet — see Resolution above.)
+- Every response includes a **`success`** boolean. Success responses also include a human-readable
+  **`message`**; error responses include an **`error`** string instead.
 - Base URLs during local dev: front end `http://localhost:5173`, back end `http://localhost:5000`.
 
 ---
@@ -56,10 +54,10 @@ FR-18's "insert new customer records").
 
 | Case | Status | Body |
 |------|--------|------|
-| Booked | `201` | `{ "message": "Reservation confirmed!", "reservationId": 32, "tableNumber": 14, "timeSlot": "2026-07-18T19:30:00" }` |
-| Time slot full | `409` | `{ "error": "That time slot is fully booked. Please choose another time." }` |
-| Not a real time slot | `400` | `{ "error": "Selected time slot is not a valid reservation time." }` |
-| Missing/invalid input | `400` | `{ "error": "Time slot, guests, name, and email are required." }` (or a more specific message for bad email / guest count) |
+| Booked | `201` | `{ "success": true, "message": "Reservation confirmed!", "reservationId": 32, "tableNumber": 14, "timeSlot": "2026-07-18T19:30:00" }` |
+| Time slot full | `409` | `{ "success": false, "error": "That time slot is fully booked. Please choose another time." }` |
+| Not a real time slot | `400` | `{ "success": false, "error": "Selected time slot is not a valid reservation time." }` |
+| Missing/invalid input | `400` | `{ "success": false, "error": "Time slot, guests, name, and email are required." }` (or a more specific message for bad email / guest count) |
 
 ---
 
@@ -84,10 +82,10 @@ customer row.
 
 | Case | Status | Body |
 |------|--------|------|
-| Subscribed | `201` | `{ "message": "You're subscribed to the Café Fausse newsletter!" }` |
-| Already subscribed | `409` | `{ "error": "You're already subscribed." }` |
-| Invalid email | `400` | `{ "error": "Please provide a valid email address." }` |
-| Missing name/email | `400` | `{ "error": "Name and email are required." }` |
+| Subscribed | `201` | `{ "success": true, "message": "You're subscribed to the Café Fausse newsletter!" }` |
+| Already subscribed | `409` | `{ "success": false, "error": "You're already subscribed." }` |
+| Invalid email | `400` | `{ "success": false, "error": "Please provide a valid email address." }` |
+| Missing name/email | `400` | `{ "success": false, "error": "Name and email are required." }` |
 
 ---
 
@@ -95,8 +93,8 @@ customer row.
 - **CORS:** back end enables `flask-cors` so the front end origin (`localhost:5173`) can call the
   API. Without it the browser blocks cross-origin requests. ✅ done.
 - **Field names are fixed** exactly as written above (the front end sends these keys verbatim).
-- **Error contract:** on failure the back end sends `{ "error": "..." }` — front end should read
-  `err.response?.data?.error` (not `.message`). On success, read `.message`.
+- **Success/error contract:** check `res.data.success` first. On `true`, read `.message` (and
+  `.tableNumber`/`.reservationId` for a booking). On `false`, read `.error`.
 - **Base URL:** front end will call the API via a configurable base (Vite dev proxy or an
   `axios` baseURL) so it's one place to change for local vs. deployed.
 
@@ -113,7 +111,5 @@ wiring the `fetch`/`axios` call.
 
 ---
 
-_Status: sections 1 and 2 reflect the actual, tested backend as of 2026-07-11 (Rob). Open items for
-Chris: add a Name field to `NewsletterSignup.jsx`, then wire both forms to these endpoints. The
-`success` boolean question (see Resolution) is still pending — check this doc before assuming it
-exists._
+_Status: sections 1 and 2 reflect the actual, tested backend as of 2026-07-11 (Rob). Open item for
+Chris: add a Name field to `NewsletterSignup.jsx`, then wire both forms to these endpoints._

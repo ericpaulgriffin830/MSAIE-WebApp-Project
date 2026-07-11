@@ -18,6 +18,14 @@ def _clean(value):
     return (value or "").strip()
 
 
+def _ok(payload, status=201):
+    return jsonify({"success": True, **payload}), status
+
+
+def _error(message, status):
+    return jsonify({"success": False, "error": message}), status
+
+
 @api.route("/newsletter", methods=["POST"])
 def newsletter_signup():
     data = request.get_json(silent=True) or {}
@@ -26,9 +34,9 @@ def newsletter_signup():
     phone = _clean(data.get("phone")) or None
 
     if not name or not email:
-        return jsonify({"error": "Name and email are required."}), 400
+        return _error("Name and email are required.", 400)
     if not EMAIL_RE.match(email):
-        return jsonify({"error": "Please provide a valid email address."}), 400
+        return _error("Please provide a valid email address.", 400)
 
     customer = db.session.execute(
         select(Customer)
@@ -37,7 +45,7 @@ def newsletter_signup():
     ).scalars().first()
 
     if customer is not None and customer.newsletter_signup:
-        return jsonify({"error": "You're already subscribed."}), 409
+        return _error("You're already subscribed.", 409)
 
     if customer is not None:
         customer.newsletter_signup = True
@@ -55,7 +63,7 @@ def newsletter_signup():
 
     db.session.commit()
 
-    return jsonify({"message": "You're subscribed to the Café Fausse newsletter!"}), 201
+    return _ok({"message": "You're subscribed to the Café Fausse newsletter!"})
 
 
 @api.route("/reservations", methods=["POST"])
@@ -69,29 +77,27 @@ def create_reservation():
     guests = data.get("guests")
 
     if not time_slot_raw or not name or not email or guests in (None, ""):
-        return jsonify({"error": "Time slot, guests, name, and email are required."}), 400
+        return _error("Time slot, guests, name, and email are required.", 400)
     if not EMAIL_RE.match(email):
-        return jsonify({"error": "Please provide a valid email address."}), 400
+        return _error("Please provide a valid email address.", 400)
 
     try:
         guests = int(guests)
     except (TypeError, ValueError):
-        return jsonify({"error": "Number of guests must be a number."}), 400
+        return _error("Number of guests must be a number.", 400)
     if not 1 <= guests <= MAX_PARTY_SIZE:
-        return jsonify(
-            {"error": f"Parties must be between 1 and {MAX_PARTY_SIZE} guests per table."}
-        ), 400
+        return _error(f"Parties must be between 1 and {MAX_PARTY_SIZE} guests per table.", 400)
 
     try:
         time_slot = datetime.fromisoformat(time_slot_raw)
     except ValueError:
-        return jsonify({"error": "Time slot is not a valid date/time."}), 400
+        return _error("Time slot is not a valid date/time.", 400)
 
     slot_exists = db.session.execute(
         select(Availability.availability_id).where(Availability.timeslot == time_slot)
     ).first()
     if slot_exists is None:
-        return jsonify({"error": "Selected time slot is not a valid reservation time."}), 400
+        return _error("Selected time slot is not a valid reservation time.", 400)
 
     try:
         slot = db.session.execute(
@@ -104,9 +110,7 @@ def create_reservation():
 
         if slot is None:
             db.session.rollback()
-            return jsonify(
-                {"error": "That time slot is fully booked. Please choose another time."}
-            ), 409
+            return _error("That time slot is fully booked. Please choose another time.", 409)
 
         customer = Customer(
             customer_name=name,
@@ -131,13 +135,13 @@ def create_reservation():
         db.session.commit()
     except SQLAlchemyError:
         db.session.rollback()
-        return jsonify({"error": "Something went wrong while booking. Please try again."}), 500
+        return _error("Something went wrong while booking. Please try again.", 500)
 
-    return jsonify(
+    return _ok(
         {
             "message": "Reservation confirmed!",
             "reservationId": reservation.reservation_id,
             "tableNumber": reservation.table_number,
             "timeSlot": time_slot.isoformat(),
         }
-    ), 201
+    )
