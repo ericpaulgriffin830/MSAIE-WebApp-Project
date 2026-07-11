@@ -1,6 +1,7 @@
 import './App.css'
 import ReservationForm from './components/ReservationForm'
 import NewsletterSignup from './components/NewsletterSignup'
+import Gallery from './components/Gallery'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <p>Fine dining in the heart of Washington, DC</p>
       <ReservationForm />
       <NewsletterSignup />
+      <Gallery />
     </div>
   )
 }
