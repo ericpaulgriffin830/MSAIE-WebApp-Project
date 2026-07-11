@@ -30,19 +30,35 @@ def newsletter_signup():
     if not EMAIL_RE.match(email):
         return jsonify({"error": "Please provide a valid email address."}), 400
 
-    customer = Customer(
-        customer_name=name,
-        customer_email=email,
-        phone_number=phone,
-        newsletter_signup=True,
-    )
-    db.session.add(customer)
+    customer = db.session.execute(
+        select(Customer)
+        .where(Customer.customer_email == email)
+        .order_by(Customer.customer_id)
+    ).scalars().first()
+
+    if customer is not None and customer.newsletter_signup:
+        return jsonify({"error": "You're already subscribed."}), 409
+
+    if customer is not None:
+        customer.newsletter_signup = True
+        customer.customer_name = name
+        if phone:
+            customer.phone_number = phone
+    else:
+        customer = Customer(
+            customer_name=name,
+            customer_email=email,
+            phone_number=phone,
+            newsletter_signup=True,
+        )
+        db.session.add(customer)
+
     db.session.commit()
 
     return jsonify({"message": "You're subscribed to the Café Fausse newsletter!"}), 201
 
 
-@api.route("/reserve", methods=["POST"])
+@api.route("/reservations", methods=["POST"])
 def create_reservation():
     data = request.get_json(silent=True) or {}
 
