@@ -18,6 +18,9 @@ def create_app():
     migrate.init_app(app, db)
 
     from app import models  # noqa: F401
+    from app.routes import api
+
+    app.register_blueprint(api)
 
     @app.cli.command("seed")
     def seed():
