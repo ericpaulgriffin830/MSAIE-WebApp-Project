@@ -82,6 +82,72 @@
   font-size: 0.9rem;
 }
 
+/* ---- Newsletter signup: input + button in a Flexbox ROW ---- */
+.newsletter {
+  max-width: 480px;
+  margin: 3rem auto 0;
+  padding: 2rem;
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.newsletter h2 {
+  color: var(--color-accent);
+}
+
+.newsletter-sub {
+  color: var(--color-muted);
+  margin: 0.5rem 0 1.25rem;
+}
+
+.newsletter-row {
+  display: flex;          /* row is the DEFAULT flex direction */
+  gap: 0.5rem;
+}
+
+.newsletter-row input {
+  flex: 1;                /* input grows to fill the leftover space */
+  padding: 0.6rem 0.75rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.newsletter-row input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.newsletter-row button {
+  padding: 0.6rem 1.25rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;    /* keep "Subscribe" on one line */
+}
+
+.newsletter-message {
+  margin-top: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* Visually-hidden label: present for screen readers, invisible on screen */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* Responsive: tighten spacing on small screens */
 @media (max-width: 480px) {
   .app {
