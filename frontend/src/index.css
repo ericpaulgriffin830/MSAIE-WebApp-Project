@@ -43,6 +43,13 @@ h1 {
   margin: 0 0 0.25rem;
 }
 
+/* On phones, shrink the big heading so it doesn't dominate the screen */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+
 h2 {
   font-size: 1.6rem;
   margin: 0;

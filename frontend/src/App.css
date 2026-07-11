@@ -81,3 +81,13 @@
   color: var(--color-error);
   font-size: 0.9rem;
 }
+
+/* Responsive: tighten spacing on small screens */
+@media (max-width: 480px) {
+  .app {
+    padding: 2rem 1rem;
+  }
+  .reservation-form {
+    padding: 1.5rem;
+  }
+}
