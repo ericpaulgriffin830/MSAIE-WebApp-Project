@@ -19,6 +19,9 @@ function Navigation() {
             <Link to="/reservations" className="navbar-link">Reservations</Link>
           </li>
           <li className="navbar-item">
+            <Link to="/gallery" className="navbar-link">Gallery</Link>
+          </li>
+          <li className="navbar-item">
             <Link to="/about" className="navbar-link">About Us</Link>
           </li>
         </ul>

@@ -1,0 +1,58 @@
+/* Gallery page: awards + reviews, styled in the dark fine-dining theme (tokens) */
+.gallery-page {
+  padding-bottom: 3rem;
+}
+
+.awards-section,
+.reviews-section {
+  max-width: 900px;
+  margin: 3rem auto 0;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.awards-section h2,
+.reviews-section h2 {
+  color: var(--color-accent);
+  margin-bottom: 1.5rem;
+}
+
+.awards-grid,
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.award,
+.review {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.award h3 {
+  color: var(--color-text);
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.award p {
+  color: var(--color-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.review-text {
+  color: var(--color-text);
+  font-style: italic;
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.review-author {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0;
+}

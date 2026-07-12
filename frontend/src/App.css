@@ -45,7 +45,8 @@
   color: var(--color-muted);
 }
 
-.field input {
+.field input,
+.field select {
   padding: 0.6rem 0.75rem;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -55,7 +56,8 @@
   font-family: var(--font-body);
 }
 
-.field input:focus {
+.field input:focus,
+.field select:focus {
   outline: none;
   border-color: var(--color-accent); /* gold highlight on the active field */
 }
@@ -82,6 +84,11 @@
   font-size: 0.9rem;
 }
 
+.success-msg {
+  color: var(--color-accent);
+  font-size: 0.95rem;
+}
+
 /* ---- Newsletter signup: input + button in a Flexbox ROW ---- */
 .newsletter {
   max-width: 480px;
@@ -102,13 +109,13 @@
   margin: 0.5rem 0 1.25rem;
 }
 
-.newsletter-row {
-  display: flex;          /* row is the DEFAULT flex direction */
-  gap: 0.5rem;
+.newsletter-fields {
+  display: flex;
+  flex-direction: column;   /* stack Name, Email, and the button */
+  gap: 0.6rem;
 }
 
-.newsletter-row input {
-  flex: 1;                /* input grows to fill the leftover space */
+.newsletter-input {
   padding: 0.6rem 0.75rem;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -117,25 +124,30 @@
   font-size: 1rem;
 }
 
-.newsletter-row input:focus {
+.newsletter-input:focus {
   outline: none;
   border-color: var(--color-accent);
 }
 
-.newsletter-row button {
-  padding: 0.6rem 1.25rem;
+.newsletter button {
+  padding: 0.65rem 1.25rem;
   background: var(--color-accent);
   color: var(--color-bg);
   border: none;
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  white-space: nowrap;    /* keep "Subscribe" on one line */
 }
 
 .newsletter-message {
   margin-top: 0.75rem;
-  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+.newsletter-message.success-msg {
+  color: var(--color-accent);
+}
+.newsletter-message.error {
+  color: var(--color-error);
 }
 
 /* Visually-hidden label: present for screen readers, invisible on screen */
