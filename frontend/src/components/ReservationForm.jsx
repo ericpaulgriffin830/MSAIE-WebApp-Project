@@ -1,54 +1,60 @@
 import { useState } from 'react'
 
-// Build the valid reservation slots the backend actually accepts:
-// whole-hour 2-hour slots — 5/7/9 PM Mon–Sat, 5/7 PM Sun — for the next 14 days.
-// The value is the exact ISO string the backend seeded (e.g. "2026-07-18T19:00").
-function buildTimeSlots(daysAhead = 14) {
-  const slots = []
-  const today = new Date()
-  for (let offset = 1; offset <= daysAhead; offset++) {
-    const day = new Date(today.getFullYear(), today.getMonth(), today.getDate() + offset)
-    const hours = day.getDay() === 0 ? [17, 19] : [17, 19, 21] // Sunday has 2 slots
-    for (const hour of hours) {
-      const y = day.getFullYear()
-      const m = String(day.getMonth() + 1).padStart(2, '0')
-      const d = String(day.getDate()).padStart(2, '0')
-      const h = String(hour).padStart(2, '0')
-      const value = `${y}-${m}-${d}T${h}:00`
-      const label =
-        day.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) +
-        ' — ' +
-        new Date(2000, 0, 1, hour).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-      slots.push({ value, label })
-    }
-  }
-  return slots
+// Valid start times per weekday (JS getDay: Sun=0 … Sat=6).
+// Sunday: 5 & 7 PM; every other day: 5, 7 & 9 PM — matching the backend's seeded slots.
+function validTimesForDate(dateStr) {
+  if (!dateStr) return []
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const day = new Date(y, m - 1, d)
+  const hours = day.getDay() === 0 ? [17, 19] : [17, 19, 21]
+  return hours.map((h) => ({
+    value: `${String(h).padStart(2, '0')}:00`,
+    label: new Date(2000, 0, 1, h).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    }),
+  }))
 }
 
-const TIME_SLOTS = buildTimeSlots()
+// Bookable date range: tomorrow through 30 days out (within the seeded window).
+function dateBounds() {
+  const now = new Date()
+  const fmt = (dt) =>
+    `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(
+      dt.getDate()
+    ).padStart(2, '0')}`
+  return {
+    min: fmt(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)),
+    max: fmt(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 30)),
+  }
+}
+const { min: MIN_DATE, max: MAX_DATE } = dateBounds()
 
 function ReservationForm() {
-  const [form, setForm] = useState({
-    timeSlot: '',
-    guests: '',
-    name: '',
-    email: '',
-    phone: '',
-  })
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [form, setForm] = useState({ guests: '', name: '', email: '', phone: '' })
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('') // 'success' | 'error'
+
+  // Which times to show depends on the picked date's weekday.
+  const timeOptions = validTimesForDate(date)
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+  function handleDateChange(e) {
+    setDate(e.target.value)
+    setTime('') // reset time — the available slots differ per day
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
 
-    // Client-side validation before hitting the API
-    if (!form.timeSlot || !form.guests || !form.name || !form.email) {
+    if (!date || !time || !form.guests || !form.name || !form.email) {
       setMessageType('error')
-      setMessage('Please fill in date & time, guests, name, and email.')
+      setMessage('Please fill in date, time, guests, name, and email.')
       return
     }
     if (!/\S+@\S+\.\S+/.test(form.email)) {
@@ -57,21 +63,25 @@ function ReservationForm() {
       return
     }
 
-    // Send the reservation to the backend (FR-8/FR-9/FR-18)
+    // Combine the calendar date + chosen time into the ISO slot the backend expects.
+    const timeSlot = `${date}T${time}`
+
     fetch('/api/reservations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ timeSlot, ...form }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setMessageType('success')
           setMessage(`${data.message} Your table is #${data.tableNumber}.`)
-          setForm({ timeSlot: '', guests: '', name: '', email: '', phone: '' })
+          setDate('')
+          setTime('')
+          setForm({ guests: '', name: '', email: '', phone: '' })
         } else {
           setMessageType('error')
-          setMessage(data.error) // backend's user-facing error (e.g. slot full)
+          setMessage(data.error)
         }
       })
       .catch(() => {
@@ -85,11 +95,32 @@ function ReservationForm() {
       <h2>Reserve a Table</h2>
 
       <div className="field">
-        <label htmlFor="timeSlot">Date &amp; Time</label>
-        <select id="timeSlot" name="timeSlot" value={form.timeSlot} onChange={handleChange}>
-          <option value="">Select a time…</option>
-          {TIME_SLOTS.map((slot) => (
-            <option key={slot.value} value={slot.value}>{slot.label}</option>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          min={MIN_DATE}
+          max={MAX_DATE}
+          value={date}
+          onChange={handleDateChange}
+        />
+      </div>
+
+      <div className="field">
+        <label htmlFor="time">Time</label>
+        <select
+          id="time"
+          name="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          disabled={!date}
+        >
+          <option value="">{date ? 'Select a time…' : 'Pick a date first'}</option>
+          {timeOptions.map((t) => (
+            <option key={t.value} value={t.value}>
+              {t.label}
+            </option>
           ))}
         </select>
       </div>
