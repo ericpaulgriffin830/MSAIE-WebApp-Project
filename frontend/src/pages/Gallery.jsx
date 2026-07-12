@@ -6,6 +6,11 @@ import './Gallery.css'
 function GalleryPage() {
   return (
     <div className="gallery-page">
+      <header className="gallery-hero">
+        <h1>Gallery</h1>
+        <p>A glimpse inside Café Fausse — our dining room, our plates, and our celebrations.</p>
+      </header>
+
       <Gallery />
 
       {/* Awards & Recognition (FR-14) */}

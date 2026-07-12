@@ -18,18 +18,18 @@ function Gallery() {
 
   return (
     <section className="gallery">
-      <h2>Gallery</h2>
-
-      {/* Turn the array into a grid of <img> elements with .map() */}
+      {/* Turn the array into a grid of image tiles with .map() */}
       <div className="gallery-grid">
         {images.map((image, index) => (
-          <img
+          <button
             key={index}
-            src={image.src}
-            alt={image.alt}
-            className="gallery-thumb"
+            type="button"
+            className="gallery-item"
             onClick={() => setSelected(image)}
-          />
+            aria-label={`Enlarge image: ${image.alt}`}
+          >
+            <img src={image.src} alt={image.alt} className="gallery-thumb" />
+          </button>
         ))}
       </div>
 
