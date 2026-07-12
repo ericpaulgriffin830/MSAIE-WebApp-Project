@@ -1,12 +1,24 @@
-/* Awards & Reviews Sections */
-.awards-section {
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.about-container h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #333;
+  font-size: 2.5rem;
+}
+
+section {
   margin-bottom: 3rem;
   padding: 2rem;
   background-color: #f9f9f9;
   border-radius: 8px;
 }
 
-.awards-section h2 {
+section h2 {
   color: #333;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
@@ -14,13 +26,38 @@
   padding-bottom: 0.5rem;
 }
 
-.awards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+.history-section p {
+  color: #666;
+  line-height: 1.8;
+  font-size: 1.1rem;
 }
 
-.award {
+.founder {
+  background-color: white;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #333;
+}
+
+.founder h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.founder p {
+  color: #666;
+  line-height: 1.8;
+}
+
+.commitment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.commitment-item {
   background-color: white;
   padding: 1.5rem;
   border-radius: 8px;
@@ -28,54 +65,32 @@
   border-top: 4px solid #333;
 }
 
-.award h3 {
+.commitment-item h3 {
   color: #333;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.award p {
-  color: #666;
-  font-style: italic;
-}
-
-.reviews-section {
-  margin-bottom: 3rem;
-  padding: 2rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.reviews-section h2 {
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  border-bottom: 2px solid #333;
-  padding-bottom: 0.5rem;
-}
-
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.review {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border-left: 4px solid #333;
-}
-
-.review-text {
-  color: #666;
-  font-style: italic;
   margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.commitment-item p {
+  color: #666;
   line-height: 1.6;
 }
 
-.review-author {
-  color: #333;
-  font-weight: bold;
-  text-align: right;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 1rem;
+  }
+
+  .about-container h1 {
+    font-size: 1.8rem;
+  }
+
+  section h2 {
+    font-size: 1.3rem;
+  }
+
+  .commitment-grid {
+    grid-template-columns: 1fr;
+  }
 }
