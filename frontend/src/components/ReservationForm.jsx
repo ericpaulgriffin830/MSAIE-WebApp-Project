@@ -1,19 +1,32 @@
 import { useState } from 'react'
 
-// Valid start times per weekday (JS getDay: Sun=0 … Sat=6).
-// Sunday: 5 & 7 PM; every other day: 5, 7 & 9 PM — matching the backend's seeded slots.
+// Valid start times per weekday (JS getDay: Sun=0 … Sat=6), on 15-minute marks.
+// Every reservation runs 2 hours, so the latest start must still leave time before
+// close — matching the backend's rules exactly: Sun 5–7 PM, every other day 5–9 PM.
+const OPEN_MINUTES = 17 * 60
+const LAST_START_MINUTES_SUN = 19 * 60
+const LAST_START_MINUTES_OTHER = 21 * 60
+const SLOT_STEP_MINUTES = 15
+
 function validTimesForDate(dateStr) {
   if (!dateStr) return []
   const [y, m, d] = dateStr.split('-').map(Number)
   const day = new Date(y, m - 1, d)
-  const hours = day.getDay() === 0 ? [17, 19] : [17, 19, 21]
-  return hours.map((h) => ({
-    value: `${String(h).padStart(2, '0')}:00`,
-    label: new Date(2000, 0, 1, h).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-    }),
-  }))
+  const lastStart = day.getDay() === 0 ? LAST_START_MINUTES_SUN : LAST_START_MINUTES_OTHER
+
+  const options = []
+  for (let minutes = OPEN_MINUTES; minutes <= lastStart; minutes += SLOT_STEP_MINUTES) {
+    const h = Math.floor(minutes / 60)
+    const min = minutes % 60
+    options.push({
+      value: `${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`,
+      label: new Date(2000, 0, 1, h, min).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+      }),
+    })
+  }
+  return options
 }
 
 // Bookable date range: tomorrow through 30 days out (within the seeded window).

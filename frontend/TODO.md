@@ -1,23 +1,21 @@
 # Frontend TODO (for Chris)
 
-## Open — reservation time picker needs widening (2026-07-12)
+## Done — reservation time picker widened to 15-minute increments (2026-07-12)
 
 Backend changed (agreed with Chris + Eric): reservations are no longer limited to fixed 5/7/9 PM
-slots. The old `availability` grid is gone, replaced with overlap-based scheduling — see
-`docs/API-CONTRACT.md` section 1 for full details. New rules for a valid `timeSlot`:
+slots — see `docs/API-CONTRACT.md` section 1 for the full rules. Rob implemented the front-end
+side of this directly (his call, since he owns final integration) rather than waiting for Chris:
 
-- [ ] **Any 15-minute mark** (`:00`, `:15`, `:30`, `:45`) is now a valid start time, not just
-      5/7/9 PM.
-- [ ] **Mon–Sat**: earliest start `5:00 PM`, latest start `9:00 PM` (last seating ends at close,
-      11:00 PM).
-- [ ] **Sunday**: earliest start `5:00 PM`, latest start `7:00 PM` (last seating ends at close,
-      9:00 PM).
-- [ ] `ReservationForm.jsx`'s `validTimesForDate()` currently only generates 3 options for
-      weekdays / 2 for Sunday (`[17, 19, 21]` / `[17, 19]`) — needs to generate every 15-minute
-      mark across the same window instead. The per-weekday branching logic can stay, just the
-      list of hours needs to become a list of `HH:MM` values stepping by 15 minutes.
-- [ ] Every reservation still books the table for a full 2 hours regardless of the 15-minute
-      granularity — no front-end change needed for that part, the backend handles it.
+- [x] `ReservationForm.jsx`'s `validTimesForDate()` now generates every 15-minute mark across the
+      full window instead of the old fixed 3/2 options — Mon–Sat `5:00`–`9:00 PM`,
+      Sunday `5:00`–`7:00 PM`. The per-weekday branching logic stayed, just the generation loop
+      changed from a fixed hour list to a 15-minute stepped range.
+- [x] Every reservation still books the table for a full 2 hours regardless of the 15-minute
+      granularity — no other front-end change needed, the backend handles that part.
+- [x] Verified live end-to-end: Sunday shows exactly 9 options (5:00–7:00 PM), a weekday shows 17
+      (5:00–9:00 PM), and a real booking at an off-hour time (5:15 PM) was confirmed end-to-end —
+      `201`, `timeSlot: "2026-07-20T17:15:00"`, row written to `reservations`. Test data cleaned
+      up afterward.
 
 ---
 
@@ -28,7 +26,7 @@ slots. The old `availability` grid is gone, replaced with overlap-based scheduli
 a live end-to-end test (real Flask backend + real Postgres DB, driven from the actual browser UI)
 confirming both forms genuinely work, not just that the code looks right. Kept here as a record of
 what was done rather than deleted. **Note:** the "constrained to valid slots" item below describing
-the 5/7/9 PM dropdown is now superseded by the open item above.
+the 5/7/9 PM dropdown was superseded by the 15-minute-increment update above.
 
 - [x] **Unify the CSS theme across all pages.** Home, Menu, About Us, and Navigation converted
       from Eric's light theme to the shared dark fine-dining design tokens
