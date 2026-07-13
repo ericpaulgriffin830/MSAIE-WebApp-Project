@@ -9,6 +9,15 @@
         "export NVM_DIR=\"$HOME/.nvm\"; for p in \"/opt/homebrew/opt/nvm/nvm.sh\" \"/usr/local/opt/nvm/nvm.sh\" \"$NVM_DIR/nvm.sh\"; do [ -s \"$p\" ] && . \"$p\" && break; done; nvm use 22 >/dev/null 2>&1 || true; npm run dev --prefix frontend"
       ],
       "port": 5173
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "zsh",
+      "runtimeArgs": [
+        "-c",
+        "cd backend && source venv/bin/activate && FLASK_APP=app flask run"
+      ],
+      "port": 5000
     }
   ]
 }
