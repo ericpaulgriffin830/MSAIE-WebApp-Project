@@ -15,6 +15,9 @@ Compared this proposal against the backend Rob had already built and tested. Agr
   see the actual request shape in section 2 below.
 - ✅ **`success` boolean added**: every response now includes `"success": true` or `"success": false`,
   alongside `message` (success) or `error` (failure). Matches this doc's original proposal.
+- ✅ **Customer dedup by email added (2026-07-12)**: both endpoints now treat email as a stable
+  customer identifier — a repeat customer's reservation or newsletter signup is attached to their
+  existing `customers` row (name/phone refreshed) instead of inserting a duplicate.
 
 ## Conventions
 - All requests and responses are **JSON**.
@@ -46,9 +49,11 @@ Creates a reservation (SRS FR-6 to FR-9, FR-18).
 
 **Back-end logic (implemented):** validates the slot is a real bookable time, then atomically locks
 a **random free table (1–30)** for that exact time slot (Postgres `SELECT ... FOR UPDATE SKIP
-LOCKED`, so concurrent requests can't double-book) → inserts the customer and reservation → marks
-the table's `availability` row reserved. Always inserts a new customer row (no dedup — matches
-FR-18's "insert new customer records").
+LOCKED`, so concurrent requests can't double-book) → looks up the customer by email → marks
+the table's `availability` row reserved. Email is treated as a stable customer identifier: if a
+customer with that email already exists, the reservation is attached to that existing row (and
+its name is refreshed, and its phone is refreshed if one was provided) instead of inserting a
+duplicate customer; otherwise a new customer row is inserted.
 
 **Actual responses (as implemented):**
 
@@ -75,8 +80,8 @@ Stores an email subscriber (SRS FR-15/16).
 
 **Back-end logic (implemented):** looks up an existing customer by email. If found and already
 `newsletter_signup = true` → reject as duplicate. If found but not yet subscribed (e.g. they'd
-only made a reservation before) → upgrades that record to subscribed. Otherwise inserts a new
-customer row.
+only made a reservation before) → upgrades that record to subscribed and refreshes its name.
+Otherwise inserts a new customer row.
 
 **Actual responses (as implemented):**
 

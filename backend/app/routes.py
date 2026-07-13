@@ -50,8 +50,6 @@ def newsletter_signup():
     if customer is not None:
         customer.newsletter_signup = True
         customer.customer_name = name
-        if phone:
-            customer.phone_number = phone
     else:
         customer = Customer(
             customer_name=name,
@@ -112,14 +110,25 @@ def create_reservation():
             db.session.rollback()
             return _error("That time slot is fully booked. Please choose another time.", 409)
 
-        customer = Customer(
-            customer_name=name,
-            customer_email=email,
-            phone_number=phone,
-            newsletter_signup=bool(data.get("newsletterSignup", False)),
-        )
-        db.session.add(customer)
-        db.session.flush()
+        customer = db.session.execute(
+            select(Customer)
+            .where(Customer.customer_email == email)
+            .order_by(Customer.customer_id)
+        ).scalars().first()
+
+        if customer is None:
+            customer = Customer(
+                customer_name=name,
+                customer_email=email,
+                phone_number=phone,
+                newsletter_signup=bool(data.get("newsletterSignup", False)),
+            )
+            db.session.add(customer)
+            db.session.flush()
+        else:
+            customer.customer_name = name
+            if phone:
+                customer.phone_number = phone
 
         reservation = Reservation(
             customer_id=customer.customer_id,
