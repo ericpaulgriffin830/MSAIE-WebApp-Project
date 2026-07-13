@@ -17,16 +17,17 @@ Quantic MSAIE *Web Application & Interface Design* project.
 Ground truth is the SRS: [`docs/MSEE_Web_Application_and_Interface_Design_Cafe_Fausse_SRS.pdf`](docs).
 Five pages minimum, plus two backend-backed features.
 
-| Page | Key requirements |
-|------|------------------|
-| **Home** | Name, contact info (1234 Culinary Ave, Suite 100, Washington DC 20002 · (202) 555-4567), hours (Mon–Sat 5–11PM, Sun 5–9PM), nav links, hero image (FR-1–FR-4) |
-| **Menu** | Categorized menu — Starters, Mains, Desserts, Beverages — with exact items & prices (FR-5) |
-| **Reservations** | Form: time slot, # guests, name, email, optional phone → backend assigns 1 of 30 tables, success/error message (FR-6–FR-9) |
-| **About Us** | History, mission, founder bios (Chef Antonio Rossi & Maria Lopez, founded 2010) (FR-10–FR-11) |
-| **Gallery** | High-res images + lightbox, awards, customer reviews (FR-12–FR-14) |
-| **Newsletter signup** | Email form w/ validation, stored in DB (FR-15–FR-16) |
+| Page                        | Key requirements                                                                                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Home**              | Name, contact info (1234 Culinary Ave, Suite 100, Washington DC 20002 · (202) 555-4567), hours (Mon–Sat 5–11PM, Sun 5–9PM), nav links, hero image (FR-1–FR-4) |
+| **Menu**              | Categorized menu — Starters, Mains, Desserts, Beverages — with exact items & prices (FR-5)                                                                       |
+| **Reservations**      | Form: time slot, # guests, name, email, optional phone → backend assigns 1 of 30 tables, success/error message (FR-6–FR-9)                                       |
+| **About Us**          | History, mission, founder bios (Chef Antonio Rossi & Maria Lopez, founded 2010) (FR-10–FR-11)                                                                     |
+| **Gallery**           | High-res images + lightbox, awards, customer reviews (FR-12–FR-14)                                                                                                |
+| **Newsletter signup** | Email form w/ validation, stored in DB (FR-15–FR-16)                                                                                                              |
 
 **Database (FR-17):**
+
 - `customers` — id, name, email, phone, newsletter_signup
 - `reservations` — id, customer_id, time_slot (date+time), table_number
 
@@ -59,6 +60,7 @@ Group Project/
 ## Local setup (fill in as we build)
 
 ### Prerequisites
+
 - Node.js ≥ 20 and npm
 - Python ≥ 3.11
 - PostgreSQL ≥ 14
@@ -67,6 +69,7 @@ Group Project/
 > service once with `brew services start postgresql@16` (or `pg_ctl` if you prefer no daemon).
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
@@ -74,6 +77,7 @@ npm run dev            # http://localhost:5173
 ```
 
 ### Backend
+
 ```bash
 cd backend
 python3 -m venv venv
@@ -84,6 +88,7 @@ flask run              # http://localhost:5000
 ```
 
 ### Database
+
 ```bash
 brew services start postgresql@16   # start the server (once)
 createdb cafe_fausse                # create the app database
@@ -94,11 +99,11 @@ createdb cafe_fausse                # create the app database
 
 ## Team
 
-| Member | GitHub repo | Focus |
-|--------|-------------|-------|
-| Chris McCoy | https://github.com/cmccoy2008/MSAIE-WebApp-Project | Part C — reservation/gallery/newsletter forms, CSS theme/design system, QA |
-| Rob Ottogalli | https://github.com/Rob-Ottogalli/MSAIE-WebApp-Project | Part B — Flask backend, PostgreSQL, reservation + newsletter logic |
-| Eric Griffin | [ https://github.com/ericpaulgriffin830/MSAIE-WebApp-Project | Part A — Home/Menu/About Us pages + routing |
+| Member        | GitHub repo                                                | Focus                                                                       |
+| ------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Chris McCoy   | https://github.com/cmccoy2008/MSAIE-WebApp-Project         | Part C — reservation/gallery/newsletter forms, CSS theme/design system, QA |
+| Rob Ottogalli | https://github.com/Rob-Ottogalli/MSAIE-WebApp-Project      | Part B — Flask backend, PostgreSQL, reservation + newsletter logic         |
+| Eric Griffin  | https://github.com/ericpaulgriffin830/MSAIE-WebApp-Project | Part A — Home/Menu/About Us pages + routing                                |
 
 > **Shared source of truth:** Rob's repo. Each member mirrors the final code to their own repo
 > for grading, and each adds **`quantic-grader`** as a collaborator (Settings → Collaborators).
