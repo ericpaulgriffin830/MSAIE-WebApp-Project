@@ -24,11 +24,10 @@ def create_app():
 
     @app.cli.command("seed")
     def seed():
-        """Seed the 30 tables and a year of availability slots."""
-        from app.seed import seed_availability, seed_tables
+        """Seed the 30 tables."""
+        from app.seed import seed_tables
 
         seed_tables()
-        count = seed_availability()
-        print(f"Seeded 30 tables and {count} availability rows.")
+        print("Seeded 30 tables.")
 
     return app

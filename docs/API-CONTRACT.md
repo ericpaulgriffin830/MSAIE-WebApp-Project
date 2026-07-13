@@ -18,6 +18,11 @@ Compared this proposal against the backend Rob had already built and tested. Agr
 - ✅ **Customer dedup by email added (2026-07-12)**: both endpoints now treat email as a stable
   customer identifier — a repeat customer's reservation or newsletter signup is attached to their
   existing `customers` row (name/phone refreshed) instead of inserting a duplicate.
+- 🟡 **Open — reservation time slots now support 15-minute increments (2026-07-12)**: the fixed
+  5/7/9 PM grid is gone. Any 15-minute mark within operating hours is now a valid `timeSlot` — see
+  the new rules in section 1 below. **`ReservationForm.jsx`'s time dropdown still only offers the
+  old 3 options per day and needs to be widened** to offer every 15-minute increment; see
+  `frontend/TODO.md`.
 
 ## Conventions
 - All requests and responses are **JSON**.
@@ -42,18 +47,30 @@ Creates a reservation (SRS FR-6 to FR-9, FR-18).
   "phone": ""
 }
 ```
-- `timeSlot` — ISO string from the `datetime-local` picker (`YYYY-MM-DDTHH:mm`)
+- `timeSlot` — ISO string (`YYYY-MM-DDTHH:mm`). **Must be on a 15-minute mark** (`:00`, `:15`,
+  `:30`, `:45`) and **leave room for a full 2-hour seating before closing**:
+  - Mon–Sat: earliest start `17:00`, latest start `21:00` (last seating ends at 23:00)
+  - Sunday: earliest start `17:00`, latest start `19:00` (last seating ends at 21:00)
+  - Must be in the future.
+
+  Every reservation occupies its table for exactly 2 hours from `timeSlot`, so e.g. a 17:15 booking
+  blocks that table until 19:15 — a *different* customer can book the same table starting at 19:15
+  or later (back-to-back is fine; anything earlier that overlaps is not).
 - `guests` — the back end parses to an int; must be 1–4 (a party over 4 needs more than one table,
   which isn't supported)
 - `phone` — optional; may be an empty string
 
-**Back-end logic (implemented):** validates the slot is a real bookable time, then atomically locks
-a **random free table (1–30)** for that exact time slot (Postgres `SELECT ... FOR UPDATE SKIP
-LOCKED`, so concurrent requests can't double-book) → looks up the customer by email → marks
-the table's `availability` row reserved. Email is treated as a stable customer identifier: if a
-customer with that email already exists, the reservation is attached to that existing row (and
-its name is refreshed, and its phone is refreshed if one was provided) instead of inserting a
-duplicate customer; otherwise a new customer row is inserted.
+**Back-end logic (implemented, rewritten 2026-07-12):** there's no more pre-seeded slot grid.
+Validity of `timeSlot` is computed directly from the rules above (weekday + 15-minute alignment +
+operating hours), not looked up in a table. Availability is computed by checking which of the 30
+tables have **no existing reservation whose 2-hour window overlaps the requested one** — a random
+table from that free set is picked and the reservation is inserted. A Postgres **GiST exclusion
+constraint** on `reservations` (`table_number` + a generated `reservation_period` range column)
+is the actual safety net that guarantees no two overlapping reservations for the same table can
+ever be committed, even under concurrent requests — the app doesn't need manual row locking.
+Email is treated as a stable customer identifier: if a customer with that email already exists,
+the reservation is attached to that existing row (name refreshed, phone refreshed if provided)
+instead of inserting a duplicate customer; otherwise a new customer row is inserted.
 
 **Actual responses (as implemented):**
 
@@ -116,5 +133,6 @@ wiring the `fetch`/`axios` call.
 
 ---
 
-_Status: sections 1 and 2 reflect the actual, tested backend as of 2026-07-11 (Rob). Open item for
-Chris: add a Name field to `NewsletterSignup.jsx`, then wire both forms to these endpoints._
+_Status: sections 1 and 2 reflect the actual, tested backend as of 2026-07-12 (Rob). Open item for
+Chris: widen `ReservationForm.jsx`'s time dropdown to offer 15-minute increments across the full
+window in section 1, not just the old 5/7/9 PM options — see `frontend/TODO.md`._

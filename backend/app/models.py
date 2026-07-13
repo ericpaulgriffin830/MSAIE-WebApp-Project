@@ -1,3 +1,6 @@
+from sqlalchemy import Computed
+from sqlalchemy.dialects.postgresql import ExcludeConstraint, TSRANGE
+
 from app import db
 
 
@@ -22,6 +25,14 @@ class Customer(db.Model):
 
 class Reservation(db.Model):
     __tablename__ = "reservations"
+    __table_args__ = (
+        ExcludeConstraint(
+            ("table_number", "="),
+            ("reservation_period", "&&"),
+            using="gist",
+            name="no_overlapping_reservations",
+        ),
+    )
 
     reservation_id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(
@@ -31,27 +42,11 @@ class Reservation(db.Model):
     table_number = db.Column(
         db.Integer, db.ForeignKey("tables.table_number"), nullable=False
     )
+    # A table is occupied for a full 2 hours starting at time_slot. Postgres maintains
+    # this range for us so the exclusion constraint below can enforce no overlaps.
+    reservation_period = db.Column(
+        TSRANGE,
+        Computed("tsrange(time_slot, time_slot + interval '2 hours')", persisted=True),
+    )
 
     customer = db.relationship("Customer", back_populates="reservations")
-    availability_slot = db.relationship(
-        "Availability", back_populates="reservation", uselist=False
-    )
-
-
-class Availability(db.Model):
-    __tablename__ = "availability"
-    __table_args__ = (
-        db.UniqueConstraint("table_number", "timeslot", name="uq_table_timeslot"),
-    )
-
-    availability_id = db.Column(db.Integer, primary_key=True)
-    table_number = db.Column(
-        db.Integer, db.ForeignKey("tables.table_number"), nullable=False
-    )
-    timeslot = db.Column(db.DateTime, nullable=False)
-    reservation_id = db.Column(
-        db.Integer, db.ForeignKey("reservations.reservation_id"), nullable=True
-    )
-    reserved = db.Column(db.Boolean, nullable=False, default=False)
-
-    reservation = db.relationship("Reservation", back_populates="availability_slot")
