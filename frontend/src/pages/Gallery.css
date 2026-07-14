@@ -1,0 +1,116 @@
+/* Gallery page: hero header + awards + reviews, in the dark fine-dining theme */
+.gallery-page {
+  padding-bottom: 4rem;
+}
+
+.gallery-hero {
+  text-align: center;
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.gallery-hero h1 {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  color: var(--color-accent);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.gallery-hero p {
+  color: var(--color-muted);
+  font-style: italic;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.awards-section,
+.reviews-section {
+  max-width: 1000px;
+  margin: 3.5rem auto 0;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.awards-section h2,
+.reviews-section h2 {
+  font-family: var(--font-heading);
+  color: var(--color-accent);
+  font-size: 1.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.awards-grid,
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Award cards: gold top accent + a star */
+.award {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+}
+
+.award::before {
+  content: "★";
+  display: block;
+  color: var(--color-accent);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.award h3 {
+  color: var(--color-text);
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.award p {
+  color: var(--color-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Review cards: big gold opening quote */
+.review {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  text-align: left;
+}
+
+.review-text {
+  color: var(--color-text);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 0.75rem;
+}
+
+.review-text::before {
+  content: "\201C";
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  line-height: 0;
+  vertical-align: -0.4em;
+  margin-right: 0.15rem;
+}
+
+.review-author {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .gallery-hero h1 {
+    font-size: 2.2rem;
+  }
+}

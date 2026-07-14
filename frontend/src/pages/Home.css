@@ -1,0 +1,96 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 3rem;
+}
+
+.hero-content h1 {
+  font-family: var(--font-heading);
+  font-size: 3.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+  letter-spacing: 0.5px;
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.contact-info,
+.hours-info {
+  padding: 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.contact-info h2,
+.hours-info h2 {
+  font-family: var(--font-heading);
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+.contact-info p,
+.hours-info p {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.contact-info strong,
+.hours-info strong {
+  color: var(--color-muted);
+}
+
+.welcome-section {
+  padding: 2.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.welcome-section h2 {
+  font-family: var(--font-heading);
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+.welcome-section p {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-section {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+}
