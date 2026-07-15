@@ -57,17 +57,20 @@ so he can explain every implementation decision on camera.
 
 ## What worked well
 
-- Using AI as a **quiz partner** rather than an answer key surfaced real gaps (e.g. which side of
-  a one-to-many holds the foreign key) that passive re-reading had hidden.
-- Using AI to discuss implementation architecture of the database, as well as pros and cons of restructuring to accommodate the added functionality for more time slots.
-- Claude was great at checking versions and identifying potential conflicts between files when integrated the 3 parts.  Rob used Claude to handle most of the git commits and code authoring.
-- For the front end, templates were a good starting point.  The CSS was responsive and functional.  Claude gave clear explanations of React concepts, and saved significant setup time.
+- Chris - Using AI as a **quiz partner** rather than an answer key surfaced real gaps (e.g. which side of a one-to-many holds the foreign key) that passive re-reading had hidden.
+- Rob - Using AI to discuss implementation architecture of the database, as well as pros and cons of restructuring to accommodate the added functionality for more time slots.
+- Rob - Claude was great at checking versions and identifying potential conflicts between files when integrated the 3 parts.  Rob used Claude to handle most of the git commits and code authoring.  Claude also cross-referenced the SRS and was able to identify when humans agreed to a design implementation that went against the SRS.
+- Eric - For the front end, templates were a good starting point.  The CSS was responsive and functional.  Claude gave clear explanations of React concepts, and saved significant setup time.
 
 ## What didn't / needed correction
 
-- [Chris] - Gallery page
-- For the frontend, some file paths needed manual adjustment.
-- Claude generated a lot of React code.  We needed to consult the React documentation to understand better what the code was doing.
+- Eric - For the frontend, some file paths needed manual adjustment.
+- Eric - Claude generated a lot of React code.  We needed to consult the React documentation to understand better what the code was doing.
+
+* Chris - Claude Opus 4.8 put the reservation page and the gallery together. Reprompting corrected the issues
+* Chris - Integrating the CSS on all the pages wasn't quite seemless. Once all the pages were properly linked, the code needed to be adjusted to show a cohesive design with Claude Opus 4.8.
+* Chris - The initial design with CSS was generic, additional prompting created the visual feel that the group appriciated.
+* Rob - Claude worked very well given the detailed instructions above.  The only observation would be that it does generate a lot of code, which we need to read to fully understand, but it was helpful in explaining how to spin up and run that code.
 
 _Note: per the project brief, no fixed proportion of code must be hand-written — grading is on
 quality, functionality, and how well it meets the SRS. This log is kept specific and truthful._
