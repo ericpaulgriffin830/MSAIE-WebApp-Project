@@ -236,5 +236,3 @@ yarn-error.log*
 # iCloud placeholder files
 *.icloud
 
-# Rob's local scratch SQL queries for the presentation demo
-/sql/

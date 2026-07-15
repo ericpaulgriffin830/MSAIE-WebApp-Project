@@ -57,7 +57,7 @@ Group Project/
 
 ---
 
-## Local setup (fill in as we build)
+## Local setup 
 
 ### Prerequisites
 
@@ -94,6 +94,8 @@ brew services start postgresql@16   # start the server (once)
 createdb cafe_fausse                # create the app database
 # run schema / seed script (TBD)
 ```
+
+**Note:** To check the database state, see sql queries in /sql/ folder.
 
 ---
 
