@@ -51,7 +51,9 @@ so he can explain every implementation decision on camera.
 - _More to add as we build._
 
 ## What didn't / needed correction
-- _TBD as we build._
+- Chris - Claude Opus 4.8 put the reservration page and the gallery together. Reprompting corrected the issues
+- Chris - Integrating the CSS on all the pages wasn't quite seemless. Once all the pages were properly linked, the code needed to be adjusted to show a cohesive design with Claude Opus 4.8.
+- Chris - The initial design with CSS was generic, additional prompting created the visual feel that the group appriciated. 
 
 _Note: per the project brief, no fixed proportion of code must be hand-written — grading is on
 quality, functionality, and how well it meets the SRS. This log is kept specific and truthful._
